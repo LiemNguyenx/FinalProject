@@ -33,40 +33,31 @@ public class monanAdapter extends ArrayAdapter<monan> {
     @NonNull
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder viewHolder;
-        if(convertView == null){
-            viewHolder = new ViewHolder();
-            convertView = LayoutInflater.from(ct).inflate(R.layout.item_monan,parent,false);
-            viewHolder.imgAvatar = (ImageView) convertView.findViewById(R.id.img_avatar);
-            viewHolder.name = (TextView) convertView.findViewById(R.id.name);
-            viewHolder.price = (TextView) convertView.findViewById(R.id.price);
-            viewHolder.check = (CheckBox) convertView.findViewById(R.id.check);
-            convertView.setTag(viewHolder);
-        }else{
-            viewHolder = (ViewHolder) convertView.getTag();
 
+        if(convertView == null){
+            LayoutInflater inflater= LayoutInflater.from(getContext());
+            convertView = LayoutInflater.from(ct).inflate(R.layout.item_monan,parent,false);
         }
-        monan m = list.get(position);
-        viewHolder.name.setText(m.getName().toString());
-        viewHolder.price.setText(String.valueOf(m.getPrice()));
-        if(m.getName().equalsIgnoreCase("den")){
-            viewHolder.imgAvatar.setImageResource(R.drawable.den);
-        }else if(m.getName().equalsIgnoreCase("da")){
-            viewHolder.imgAvatar.setImageResource(R.drawable.da);
-        }else if (m.getName().equalsIgnoreCase("sua")){
-            viewHolder.imgAvatar.setImageResource(R.drawable.sua);
+        TextView tvName= (TextView) convertView.findViewById(R.id.name);
+        TextView tvPrice = (TextView) convertView.findViewById(R.id.price);
+        ImageView imgAvatar = (ImageView) convertView.findViewById(R.id.img_avatar);
+        CheckBox cbCheck = (CheckBox) convertView.findViewById(R.id.check);
+
+        monan m = getItem(position);
+        if(m!=null){
+            tvName.setText(m.getName().toString());
+            tvPrice.setText(String.valueOf(m.getPrice()));
+            cbCheck.setChecked(m.isCheck());
+            if(m.getName().equals("da")){
+                imgAvatar.setImageResource(R.drawable.da);
+            }else if(m.getName().equals("den")){
+                imgAvatar.setImageResource(R.drawable.den);
+            }else if(m.getName().equals("sua")){
+                imgAvatar.setImageResource(R.drawable.sua);
+            }
         }
-        if (m.isCheck()){
-            viewHolder.check.setChecked(true);
-        }else{
-            viewHolder.check.setChecked(false);
-        }
+
         return convertView;
     }
-    public class ViewHolder{
-        ImageView imgAvatar;
-        TextView name;
-        TextView price;
-        CheckBox check;
-    }
+
 }
